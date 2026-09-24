@@ -7,7 +7,7 @@ A responsive, frontend-only website for Tyre Bank in Amberpet, Hyderabad. This i
 ```text
 tyre-bank-website/
 ├── README.md
-└── site/
+└── docs/
     ├── index.html            # page content and links
     ├── favicon.svg           # browser tab icon
     ├── css/
@@ -20,15 +20,26 @@ tyre-bank-website/
 
 ## Preview locally
 
-Open `site/index.html` in a browser. For a local web preview, run this from the project folder:
+Open `docs/index.html` in a browser. For a local web preview, run this from the project folder:
 
 ```bash
-python3 -m http.server 8000 --directory site
+python3 -m http.server 8000 --directory docs
 ```
 
 Then open `http://localhost:8000/`. Press `Control+C` in Terminal to stop the server. No installation is needed.
 
-The files use relative paths, so they can later be hosted at a project URL such as `https://sujeeeth4.github.io/tyre-bank-website/`. This conversion has **not** been pushed or published. GitHub Pages setup is deliberately left for a separate publishing step.
+The files use relative paths, so they work at the GitHub Pages project URL `https://sujeeeth4.github.io/tyre-bank-website/`.
+
+## Publish a GitHub Pages preview
+
+The `docs/` folder is ready for GitHub Pages. After pushing this folder rename to `main`:
+
+1. Open the repository on GitHub and choose **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+3. Select branch **main** and folder **/docs**, then click **Save**.
+4. Wait for the Pages deployment to finish. GitHub will show the live link on the same settings page.
+
+GitHub Pages is suitable for a preview to share with friends. Confirm the owner checklist below and use hosting intended for commercial sites before making this Tyre Bank's official business website. [GitHub's Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits) say Pages is not intended as free hosting to run an online business.
 
 ## Information used from the existing site
 
@@ -36,7 +47,7 @@ The files use relative paths, so they can later be hosted at a project URL such 
 - [Tyres page](https://tyrebankhyd.com/tyres.html): the category labels are images reading **Passenger Cars, Two Wheelers, OTR, Trucks-Buses, Farm Services, LCV, Tubes & Flaps**. This site groups those into cards and a secondary list. The existing site does not identify specific currently stocked tyre models.
 - [Services page](https://tyrebankhyd.com/services.html): automatic tyre changing for car and SUV wheels, tube and tubeless tyre handling, nitrogen filling, wheel alignment and wheel balancing.
 - [Contact page](https://tyrebankhyd.com/contact.html): `2-3-36/1/18 & 19, Road No.6 'X' Road, Amberpet, Hyderabad-500013`; landline `040-27408927`; shop cell `92465 08927`; `tyrebank_hyderabad@yahoo.com`. The old map embed supplied the coordinates used for the directions and map links.
-- [Gallery](https://tyrebankhyd.com/gallery.html) and old home page: business imagery in `site/images/legacy/` was downloaded from the existing Tyre Bank website. The design uses selected original photos rather than third-party stock imagery.
+- [Gallery](https://tyrebankhyd.com/gallery.html) and old home page: business imagery in `docs/images/legacy/` was downloaded from the existing Tyre Bank website. The design uses selected original photos rather than third-party stock imagery.
 
 ## Confirm with the owner before publishing
 
