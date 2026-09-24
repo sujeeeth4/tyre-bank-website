@@ -1,17 +1,34 @@
 # Tyre Bank Hyderabad website
 
-A responsive, frontend-only introductory website for Tyre Bank in Amberpet, Hyderabad. Built with Next.js, TypeScript and Tailwind CSS. Business content is kept in [`lib/site-data.ts`](lib/site-data.ts) for easy updates.
+A responsive, frontend-only website for Tyre Bank in Amberpet, Hyderabad. This is a plain HTML, CSS and JavaScript conversion of the original Next.js site. It keeps the same page layout, content, shop photos, colors, navigation, responsive breakpoints, hover effects and smooth anchor scrolling. There is no framework, build step, backend or database.
 
-The single-page structure is: navigation, hero, business highlights, tyre categories, services, story and founder, gallery, contact and map, then footer. There is no backend, database or form submission.
+## Project tree
 
-## Run locally
-
-```bash
-npm install
-npm run dev
+```text
+tyre-bank-website/
+├── README.md
+└── site/
+    ├── index.html            # page content and links
+    ├── favicon.svg           # browser tab icon
+    ├── css/
+    │   └── styles.css        # layout and responsive styles
+    ├── js/
+    │   └── main.js           # mobile menu and footer year
+    └── images/
+        └── legacy/          # Tyre Bank images from the old website
 ```
 
-Open http://localhost:3000. For a production check, run `npm run typecheck` and `npm run build`.
+## Preview locally
+
+Open `site/index.html` in a browser. For a local web preview, run this from the project folder:
+
+```bash
+python3 -m http.server 8000 --directory site
+```
+
+Then open `http://localhost:8000/`. Press `Control+C` in Terminal to stop the server. No installation is needed.
+
+The files use relative paths, so they can later be hosted at a project URL such as `https://sujeeeth4.github.io/tyre-bank-website/`. This conversion has **not** been pushed or published. GitHub Pages setup is deliberately left for a separate publishing step.
 
 ## Information used from the existing site
 
@@ -19,7 +36,7 @@ Open http://localhost:3000. For a production check, run `npm run typecheck` and 
 - [Tyres page](https://tyrebankhyd.com/tyres.html): the category labels are images reading **Passenger Cars, Two Wheelers, OTR, Trucks-Buses, Farm Services, LCV, Tubes & Flaps**. This site groups those into cards and a secondary list. The existing site does not identify specific currently stocked tyre models.
 - [Services page](https://tyrebankhyd.com/services.html): automatic tyre changing for car and SUV wheels, tube and tubeless tyre handling, nitrogen filling, wheel alignment and wheel balancing.
 - [Contact page](https://tyrebankhyd.com/contact.html): `2-3-36/1/18 & 19, Road No.6 'X' Road, Amberpet, Hyderabad-500013`; landline `040-27408927`; shop cell `92465 08927`; `tyrebank_hyderabad@yahoo.com`. The old map embed supplied the coordinates used for the directions and map links.
-- [Gallery](https://tyrebankhyd.com/gallery.html) and old home page: business imagery in `public/images/legacy/` was downloaded from the existing Tyre Bank website. The design uses selected original photos rather than third-party stock imagery.
+- [Gallery](https://tyrebankhyd.com/gallery.html) and old home page: business imagery in `site/images/legacy/` was downloaded from the existing Tyre Bank website. The design uses selected original photos rather than third-party stock imagery.
 
 ## Confirm with the owner before publishing
 

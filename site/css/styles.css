@@ -1,14 +1,16 @@
-@import "tailwindcss";
-
 :root{--paper:#f6f5f1;--white:#fff;--ink:#191a1b;--muted:#656668;--red:#d82e27;--line:#d9d9d4}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;border:0 solid}
+html{scroll-behavior:smooth;line-height:1.5}
 main[id],section[id]{scroll-margin-top:84px}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
 button,a{font:inherit}
 a{text-decoration:none;color:inherit}
 button{cursor:pointer}
-img{display:block}
+img{display:block;max-width:100%}
+.icon{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.icon-sprite{position:absolute;width:0;height:0;overflow:hidden}
+[hidden]{display:none!important}
+.hero-photo img,.services-photo img,.about-image img,.gallery-item img{position:absolute;inset:0;width:100%;height:100%}
 ::selection{background:var(--red);color:#fff}
 .container-wide{width:min(100% - 80px,1360px);margin-inline:auto}
 .section-pad{padding:116px 0}
