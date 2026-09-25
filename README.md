@@ -9,13 +9,13 @@ tyre-bank-website/
 ├── README.md
 └── docs/
     ├── index.html            # page content and links
-    ├── favicon.svg           # browser tab icon
     ├── css/
     │   └── styles.css        # layout and responsive styles
     ├── js/
     │   ├── main.js           # vehicle views, filters, menu and gallery
     │   └── loader.js         # opening tyre spin, smoke and departure
     └── images/
+        ├── mrf-ts-logo.png   # supplied MRF T&S logo and browser tab icon
         ├── legacy/          # original Tyre Bank shop and catalogue images
         │   └── products/    # all 18 archived catalogue images
         └── mrf/             # MRF product images used in the new catalogue
