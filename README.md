@@ -16,6 +16,7 @@ tyre-bank-website/
     │   └── loader.js         # opening tyre spin, smoke and departure
     └── images/
         ├── mrf-ts-logo.png   # supplied MRF T&S logo and browser tab icon
+        ├── mrf-hero-emblem.png # supplied MRF tyre emblem in the hero
         ├── legacy/          # original Tyre Bank shop and catalogue images
         │   └── products/    # all 18 archived catalogue images
         └── mrf/             # MRF product images used in the new catalogue
