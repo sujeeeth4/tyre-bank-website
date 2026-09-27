@@ -1,10 +1,11 @@
 const menuButton = document.querySelector(".menu-toggle");
 const mobileNavigation = document.querySelector("#mobile-navigation");
+const t = (source) => window.tyreBankI18n?.t(source) || source;
 
 function setMenuOpen(open) {
   mobileNavigation.hidden = !open;
   menuButton.setAttribute("aria-expanded", String(open));
-  menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  menuButton.setAttribute("aria-label", t(open ? "Close menu" : "Open menu"));
   menuButton.querySelectorAll(".line").forEach((line) => {
     line.classList.toggle("open", open);
   });
@@ -59,10 +60,10 @@ function filterProducts(category) {
     if (!card.hidden) visibleCount += 1;
   });
   const categoryName = activeFilter.textContent.trim();
-  catalogTitle.textContent = category === "all" ? "All tyre options" : categoryName;
+  catalogTitle.textContent = category === "all" ? t("All tyre options") : categoryName;
   catalogStatus.textContent = category === "all"
-    ? `Showing all ${visibleCount} patterns`
-    : `Showing ${visibleCount} patterns · ${categoryName}`;
+    ? t("Showing all patterns").replace("{count}", visibleCount)
+    : t("Showing category patterns").replace("{count}", visibleCount).replace("{category}", categoryName);
 }
 
 function showVehicles(restoreFocus = false) {
@@ -117,7 +118,7 @@ function showPhoto(index) {
 }
 
 galleryLinks.forEach((link, index) => {
-  link.setAttribute("aria-label", `View full photo: ${link.querySelector("img").alt}`);
+  link.setAttribute("aria-label", `${t("View full photo")}: ${link.querySelector("img").alt}`);
   link.addEventListener("click", (event) => {
     if (typeof photoDialog.showModal !== "function") return;
     event.preventDefault();
@@ -136,6 +137,16 @@ photoDialog.addEventListener("keydown", (event) => {
     event.preventDefault();
     showPhoto(photoIndex + (event.key === "ArrowRight" ? 1 : -1));
   }
+});
+
+document.addEventListener("tyrebank:languagechange", () => {
+  const activeCategory = filters.querySelector('button[aria-pressed="true"]')?.dataset.filter || "all";
+  filterProducts(activeCategory);
+  menuButton.setAttribute("aria-label", t(menuButton.getAttribute("aria-expanded") === "true" ? "Close menu" : "Open menu"));
+  galleryLinks.forEach((link) => {
+    link.setAttribute("aria-label", `${t("View full photo")}: ${link.querySelector("img").alt}`);
+  });
+  if (photoDialog.open) showPhoto(photoIndex);
 });
 
 if ("IntersectionObserver" in window) {

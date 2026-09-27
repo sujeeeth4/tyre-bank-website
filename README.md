@@ -1,6 +1,6 @@
 # Tyre Bank Hyderabad website
 
-A responsive, frontend-only website for Tyre Bank in Amberpet, Hyderabad, built with plain HTML, CSS and JavaScript. It includes 12 MRF vehicle categories with 219 pictured tyre and accessory patterns, five service offerings, shop photography, a keyboard-accessible photo viewer, smooth anchor scrolling and subtle scroll reveals that respect reduced-motion preferences. There is no framework, build step, backend or database.
+A responsive, frontend-only website for Tyre Bank in Amberpet, Hyderabad, built with plain HTML, CSS and JavaScript. It includes 12 MRF vehicle categories with 219 pictured tyre and accessory patterns, five service offerings, English/Telugu/Hindi language options, shop photography, a keyboard-accessible photo viewer, smooth anchor scrolling and subtle scroll reveals that respect reduced-motion preferences. There is no framework, build step, backend or database.
 
 **Live website:** [Visit Tyre Bank Hyderabad](https://sujeeeth4.github.io/tyre-bank-website/)
 
@@ -15,6 +15,7 @@ tyre-bank-website/
     │   └── styles.css        # layout and responsive styles
     ├── js/
     │   ├── main.js           # vehicle views, filters, menu and gallery
+    │   ├── i18n.js           # English, Telugu and Hindi interface text
     │   └── loader.js         # opening tyre spin, smoke and departure
     └── images/
         ├── mrf-ts-logo.png   # supplied MRF T&S logo and browser tab icon
@@ -32,6 +33,7 @@ tyre-bank-website/
 - Selecting a category opens its matching products. The filters switch categories, and **All vehicle categories** returns to the cards. The Tyres navigation links also return to the cards.
 - Each fresh page opening or reload plays a short tyre spin, followed by an accelerating exit with smoke. It waits for the hero image, with a 3.5-second maximum wait before the exit. **Skip intro** or Escape dismisses it immediately.
 - Reduced-motion preferences skip the intro and disable movement. Without JavaScript, the page and complete catalogue remain available.
+- Use the language selector in the header to switch between English, Telugu and Hindi. The selection is saved in the browser; MRF model names remain unchanged.
 
 Open `docs/index.html` in a browser. For a local web preview, run this from the project folder:
 

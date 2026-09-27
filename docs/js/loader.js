@@ -33,7 +33,7 @@
     if (finished || departing) return;
     departing = true;
     loader.classList.add("is-departing");
-    loader.querySelector(".loader-status").textContent = "Ready. Let’s roll.";
+    loader.querySelector(".loader-status").textContent = window.tyreBankI18n?.t("Ready. Let’s roll.") || "Ready. Let’s roll.";
     removalTimer = setTimeout(removeIntro, 1150);
   }
 
