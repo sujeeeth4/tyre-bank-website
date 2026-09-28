@@ -1,39 +1,42 @@
-const menuButton = document.querySelector(".menu-toggle");
+// Mobile navigation ---------------------------------------------------------
+const mobileMenuButton = document.querySelector(".menu-toggle");
 const mobileNavigation = document.querySelector("#mobile-navigation");
-const t = (source) => window.tyreBankI18n?.t(source) || source;
+const translate = (source) => window.tyreBankI18n?.translate(source) || source;
 
-function setMenuOpen(open) {
+function setMobileMenuOpen(open) {
   mobileNavigation.hidden = !open;
-  menuButton.setAttribute("aria-expanded", String(open));
-  menuButton.setAttribute("aria-label", t(open ? "Close menu" : "Open menu"));
-  menuButton.querySelectorAll(".line").forEach((line) => {
+  mobileMenuButton.setAttribute("aria-expanded", String(open));
+  mobileMenuButton.setAttribute("aria-label", translate(open ? "Close menu" : "Open menu"));
+  mobileMenuButton.querySelectorAll(".menu-toggle-line").forEach((line) => {
     line.classList.toggle("open", open);
   });
 }
 
-menuButton.addEventListener("click", () => {
-  setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+mobileMenuButton.addEventListener("click", () => {
+  setMobileMenuOpen(mobileMenuButton.getAttribute("aria-expanded") !== "true");
 });
 
 mobileNavigation.addEventListener("click", (event) => {
-  if (event.target.closest("a")) setMenuOpen(false);
+  if (event.target.closest("a")) setMobileMenuOpen(false);
 });
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !mobileNavigation.hidden) {
-    setMenuOpen(false);
-    menuButton.focus();
+    setMobileMenuOpen(false);
+    mobileMenuButton.focus();
   }
 });
 
 window.matchMedia("(min-width: 951px)").addEventListener("change", (event) => {
-  if (event.matches) setMenuOpen(false);
+  if (event.matches) setMobileMenuOpen(false);
 });
 
+// Page metadata -------------------------------------------------------------
 document.querySelector("#current-year").textContent = new Date().getFullYear();
 
-// Keep all catalogue items in the HTML so they remain available without JavaScript.
-const filters = document.querySelector("[data-catalog-controls]");
+// Tyre catalogue ------------------------------------------------------------
+// Keep every product in the HTML so the catalogue remains available without JS.
+const catalogFilters = document.querySelector("[data-catalog-controls]");
 const productCards = [...document.querySelectorAll(".product-card")];
 const catalogStatus = document.querySelector("#catalog-status");
 
@@ -42,28 +45,28 @@ const catalogDetails = document.querySelector("#catalog-details");
 const catalogTitle = document.querySelector("#catalog-title");
 const backToVehicles = document.querySelector(".catalog-back");
 const tyresSection = document.querySelector("#tyres");
-let selectedVehicleLink = null;
+let selectedCategoryTrigger = null;
 
-filters.hidden = false;
+catalogFilters.hidden = false;
 backToVehicles.hidden = false;
 catalogDetails.hidden = true;
 
 function filterProducts(category) {
-  const activeFilter = filters.querySelector(`[data-filter="${category}"]`);
-  if (!activeFilter) return;
-  filters.querySelectorAll("button").forEach((filter) => {
-    filter.setAttribute("aria-pressed", String(filter === activeFilter));
+  const selectedFilterButton = catalogFilters.querySelector(`[data-filter="${category}"]`);
+  if (!selectedFilterButton) return;
+  catalogFilters.querySelectorAll("button").forEach((filter) => {
+    filter.setAttribute("aria-pressed", String(filter === selectedFilterButton));
   });
-  let visibleCount = 0;
+  let visibleProductCount = 0;
   productCards.forEach((card) => {
     card.hidden = category !== "all" && card.dataset.category !== category;
-    if (!card.hidden) visibleCount += 1;
+    if (!card.hidden) visibleProductCount += 1;
   });
-  const categoryName = activeFilter.textContent.trim();
-  catalogTitle.textContent = category === "all" ? t("All tyre options") : categoryName;
+  const selectedCategoryName = selectedFilterButton.textContent.trim();
+  catalogTitle.textContent = category === "all" ? translate("All tyre options") : selectedCategoryName;
   catalogStatus.textContent = category === "all"
-    ? t("Showing all patterns").replace("{count}", visibleCount)
-    : t("Showing category patterns").replace("{count}", visibleCount).replace("{category}", categoryName);
+    ? translate("Showing all patterns").replace("{count}", visibleProductCount)
+    : translate("Showing category patterns").replace("{count}", visibleProductCount).replace("{category}", selectedCategoryName);
 }
 
 function showVehicles(restoreFocus = false) {
@@ -71,7 +74,7 @@ function showVehicles(restoreFocus = false) {
   vehicleOverview.hidden = false;
   tyresSection.setAttribute("aria-labelledby", "tyres-title");
   if (restoreFocus) {
-    (selectedVehicleLink || document.querySelector("#tyres-title")).focus({ preventScroll: true });
+    (selectedCategoryTrigger || document.querySelector("#tyres-title")).focus({ preventScroll: true });
     tyresSection.scrollIntoView({ block: "start" });
   }
 }
@@ -80,7 +83,7 @@ vehicleOverview.addEventListener("click", (event) => {
   const link = event.target.closest("[data-category-open]");
   if (!link) return;
   event.preventDefault();
-  selectedVehicleLink = link;
+  selectedCategoryTrigger = link;
   filterProducts(link.dataset.categoryOpen);
   vehicleOverview.hidden = true;
   catalogDetails.hidden = false;
@@ -91,7 +94,7 @@ vehicleOverview.addEventListener("click", (event) => {
   tyresSection.scrollIntoView({ block: "start" });
 });
 
-filters.addEventListener("click", (event) => {
+catalogFilters.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-filter]");
   if (button) filterProducts(button.dataset.filter);
 });
@@ -101,24 +104,25 @@ document.querySelectorAll('a[href="#tyres"]').forEach((link) => {
   link.addEventListener("click", () => showVehicles());
 });
 
+// Gallery viewer ------------------------------------------------------------
 // Native dialog provides keyboard focus containment and Escape-to-close.
 const photoDialog = document.querySelector(".photo-dialog");
 const galleryLinks = [...document.querySelectorAll(".gallery-open")];
-const fullPhoto = document.querySelector(".photo-full");
-const photoCaption = document.querySelector(".photo-caption");
-let photoIndex = 0;
+const dialogPhoto = document.querySelector(".photo-full");
+const dialogCaption = document.querySelector(".photo-caption");
+let activePhotoIndex = 0;
 
 function showPhoto(index) {
-  photoIndex = (index + galleryLinks.length) % galleryLinks.length;
-  const figure = galleryLinks[photoIndex].closest("figure");
+  activePhotoIndex = (index + galleryLinks.length) % galleryLinks.length;
+  const figure = galleryLinks[activePhotoIndex].closest("figure");
   const thumbnail = figure.querySelector("img");
-  fullPhoto.src = thumbnail.getAttribute("src");
-  fullPhoto.alt = thumbnail.alt;
-  photoCaption.textContent = `${photoIndex + 1} / ${galleryLinks.length} — ${figure.querySelector("figcaption").textContent.replace(/^0\d/, "").trim()}`;
+  dialogPhoto.src = thumbnail.getAttribute("src");
+  dialogPhoto.alt = thumbnail.alt;
+  dialogCaption.textContent = `${activePhotoIndex + 1} / ${galleryLinks.length} — ${figure.querySelector("figcaption").textContent.replace(/^0\d/, "").trim()}`;
 }
 
 galleryLinks.forEach((link, index) => {
-  link.setAttribute("aria-label", `${t("View full photo")}: ${link.querySelector("img").alt}`);
+  link.setAttribute("aria-label", `${translate("View full photo")}: ${link.querySelector("img").alt}`);
   link.addEventListener("click", (event) => {
     if (typeof photoDialog.showModal !== "function") return;
     event.preventDefault();
@@ -127,34 +131,36 @@ galleryLinks.forEach((link, index) => {
   });
 });
 document.querySelector(".photo-close").addEventListener("click", () => photoDialog.close());
-document.querySelector(".photo-prev").addEventListener("click", () => showPhoto(photoIndex - 1));
-document.querySelector(".photo-next").addEventListener("click", () => showPhoto(photoIndex + 1));
+document.querySelector(".photo-prev").addEventListener("click", () => showPhoto(activePhotoIndex - 1));
+document.querySelector(".photo-next").addEventListener("click", () => showPhoto(activePhotoIndex + 1));
 photoDialog.addEventListener("click", (event) => {
   if (event.target === photoDialog) photoDialog.close();
 });
 photoDialog.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
     event.preventDefault();
-    showPhoto(photoIndex + (event.key === "ArrowRight" ? 1 : -1));
+    showPhoto(activePhotoIndex + (event.key === "ArrowRight" ? 1 : -1));
   }
 });
 
+// Recompute text created by JavaScript after the static page is translated.
 document.addEventListener("tyrebank:languagechange", () => {
-  const activeCategory = filters.querySelector('button[aria-pressed="true"]')?.dataset.filter || "all";
+  const activeCategory = catalogFilters.querySelector('button[aria-pressed="true"]')?.dataset.filter || "all";
   filterProducts(activeCategory);
-  menuButton.setAttribute("aria-label", t(menuButton.getAttribute("aria-expanded") === "true" ? "Close menu" : "Open menu"));
+  mobileMenuButton.setAttribute("aria-label", translate(mobileMenuButton.getAttribute("aria-expanded") === "true" ? "Close menu" : "Open menu"));
   galleryLinks.forEach((link) => {
-    link.setAttribute("aria-label", `${t("View full photo")}: ${link.querySelector("img").alt}`);
+    link.setAttribute("aria-label", `${translate("View full photo")}: ${link.querySelector("img").alt}`);
   });
-  if (photoDialog.open) showPhoto(photoIndex);
+  if (photoDialog.open) showPhoto(activePhotoIndex);
 });
 
+// Scroll state and optional reveal animations -------------------------------
 if ("IntersectionObserver" in window) {
   const header = document.querySelector(".site-header");
   const headerObserver = new IntersectionObserver(([entry]) => {
     header.classList.toggle("is-scrolled", !entry.isIntersecting);
   });
-  headerObserver.observe(document.querySelector(".topline"));
+  headerObserver.observe(document.querySelector(".announcement-bar"));
 
   const navigationLinks = document.querySelectorAll(".desktop-nav a, .mobile-nav a[href^='#']");
   const navigationObserver = new IntersectionObserver((entries) => {
@@ -178,7 +184,7 @@ if ("IntersectionObserver" in window) {
         revealObserver.unobserve(entry.target);
       });
     }, { threshold: 0, rootMargin: "0px 0px 40px 0px" });
-    document.querySelectorAll(".section-intro, .catalog-grid, .services-photo, .service-list, .about-visual, .about-content, .gallery-grid").forEach((element) => {
+    document.querySelectorAll(".section-intro, .catalog-grid, .services-photo, .service-card-grid, .about-visual, .about-content, .gallery-grid").forEach((element) => {
       if (element.getBoundingClientRect().top < window.innerHeight) return;
       element.classList.add("reveal", "is-pending");
       revealObserver.observe(element);
