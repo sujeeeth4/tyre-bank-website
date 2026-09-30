@@ -18,7 +18,8 @@ tyre-bank-website/
     │   ├── i18n.js           # English, Telugu and Hindi interface text
     │   └── loader.js         # opening tyre spin, smoke and departure
     └── images/
-        ├── mrf-ts-logo.png   # supplied MRF T&S logo and browser tab icon
+        ├── favicon.svg       # compact Tyre Bank browser tab icon
+        ├── mrf-ts-logo.png   # supplied MRF T&S logo and touch-icon fallback
         ├── mrf-hero-emblem.png # supplied MRF tyre emblem in the hero
         ├── legacy/          # original Tyre Bank shop and catalogue images
         │   └── products/    # all 18 archived catalogue images
